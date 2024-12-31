@@ -18,6 +18,9 @@ links_helligkeit.atten(ADC.ATTN_11DB)
 rechts_helligkeit.atten(ADC.ATTN_11DB)
 rechtsstartbtn= Pin(rechtsstartbtn,Pin.IN)
 startbutton = Pin(startbutton, Pin.IN)
+countergerade=0
+counterrechts=0
+counterlinks=0
 while True:
     if rechtsstartbtn.value():
         while True:
@@ -29,22 +32,27 @@ while True:
             print(f"Spannung Abstandssensor: {voltage} V")
             sleep(0.0025)
             print(rechtsmessung,linksmessung)
-            motors_obj.drive_straight(50,0.1)
-            if voltage > 1.9:
+            if voltage > 2.1:
                 motors_obj.drive_straight(0,0)
                 leuchte2 = not leuchte.value()
                 leuchte.value(leuchte2)
                 sleep(1.5)
                 leuchte.value(not leuchte2)
                 print('es ist ein hindernis im weg')
+                print(countergerade) 
+                print(counterrechts) 
+                print(counterlinks)
                 break
             if rechtsmessung > 1.5 and linksmessung < 0.5:
                 motors_obj.drive_straight(50,0.1)
+                countergerade+=1
             if linksmessung < 0.5 and rechtsmessung < 1.2 :
                 motors_obj.turn_right (100,0.1)
-            if linksmessung > 0.5:
+                counterrechts+=1
+            if linksmessung > 0.4:
                 motors_obj.turn_left(100,0.1)
-           
+                counterlinks+=1          
+    
               
         
         
