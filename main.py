@@ -18,10 +18,10 @@ links_helligkeit.atten(ADC.ATTN_11DB)
 rechts_helligkeit.atten(ADC.ATTN_11DB)
 rechtsstartbtn= Pin(rechtsstartbtn,Pin.IN)
 startbutton = Pin(startbutton, Pin.IN)
-countergerade=0
-counterrechts=0
-counterlinks=0
 while True:
+    countergerade=1
+    counterrechts=1
+    counterlinks=1
     if rechtsstartbtn.value():
         while True:
             linksmessung=links_helligkeit.read_uv() / 1e6
@@ -39,9 +39,6 @@ while True:
                 sleep(1.5)
                 leuchte.value(not leuchte2)
                 print('es ist ein hindernis im weg')
-                print(countergerade) 
-                print(counterrechts) 
-                print(counterlinks)
                 break
             if rechtsmessung > 1.5 and linksmessung < 0.5:
                 motors_obj.drive_straight(50,0.1)
@@ -52,7 +49,4 @@ while True:
             if linksmessung > 0.4:
                 motors_obj.turn_left(100,0.1)
                 counterlinks+=1          
-    
-              
-        
         
